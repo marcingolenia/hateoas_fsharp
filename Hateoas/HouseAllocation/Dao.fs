@@ -24,10 +24,6 @@ let private allStudents =
 let mutable housedStudents =
     allStudents |> List.groupBy _.House
                 |> Map.ofList
-                
-let updateStudents (students: Student list) =
-    housedStudents <- students |> List.groupBy _.House
-                               |> Map.ofList
     
 let deleteStudentBy (id: string) =
     housedStudents <- housedStudents.Values

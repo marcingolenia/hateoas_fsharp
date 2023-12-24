@@ -13,8 +13,7 @@ type HouseDto =
 
     static member map(house: House) =
         let houseName = house.Name.ToString()
-
-        { Name = house.Name.ToString()
+        { Name = houseName
           Capacity = house.Capacity
           Links =
             [ { Rel = "all_students"
