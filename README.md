@@ -1,4 +1,13 @@
+
 # HATEOAS in F#
+
+> This post is part of the F# Advent Calendar 2020. Special thanks to Sergey Tihon for organizing this! [Check out all the other great posts there!](https://sergeytihon.com/2023/10/28/f-advent-calendar-in-english-2023/)
+
+I will divide the topic into 3 parts:
+1. HATEOAS in F# (this post)
+2. Let's try LinkGenerator to see if it can simplify HATEOAS implementation (coming soon)
+3. Consuming RESTful API and leveraging HATEOAS in F# Fable app (coming soon)
+
 Hypermedia as the engine of application state (HATEOAS) is 24 years old now! 
 I am coding for more than 12 years and yet I didn't see it on production in projects I worked with. 
 Why? Is it so bad? Complex?
@@ -453,5 +462,5 @@ good stuff about HATEOAS even if You are not using spring.
 # References
 - [1] RESTful Web Services Cookbook, Subbu Allamaraju, O'Reilly 2010. Chapter 14, Enabling Discovery.
 - [2] https://www.iana.org/assignments/link-relations/link-relations.xhtml
-- [3] https://www.youtube.com/watch?v=bHc8Gudrhdo
-- [4] https://docs.spring.io/spring-hateoas/docs/current/reference/html/
+- [3] [Crafting domain driven web APIs - By Julien Topçu](https://www.youtube.com/watch?v=bHc8Gudrhdo)
+- [4] [Spring Hateoas documentation](https://docs.spring.io/spring-hateoas/docs/current/reference/html/)
