@@ -451,7 +451,7 @@ Cons:
 - Hardcoded Logic: Clients rely on hardcoded URLs, making them more brittle to changes in the API structure (so coupling).
 - Limited Discoverability: Without HATEOAS, discovering available actions and resources may require external documentation, leading to a potential lack of self-discovery.
 
-This are the key differences I can see.
+These are the key differences I can see.
 
 ### 4.1 Where to go from here? 
 If what I presented got Your attention then You should definitely check 
