@@ -1,7 +1,7 @@
 
 # HATEOAS in F#
 
-> This post is part of the F# Advent Calendar 2020. Special thanks to Sergey Tihon for organizing this! [Check out all the other great posts there!](https://sergeytihon.com/2023/10/28/f-advent-calendar-in-english-2023/)
+> This post is part of the F# Advent Calendar 2023. Special thanks to Sergey Tihon for organizing this! [Check out all the other great posts there!](https://sergeytihon.com/2023/10/28/f-advent-calendar-in-english-2023/)
 
 I will divide the topic into 3 parts:
 1. HATEOAS in F# (this post)
