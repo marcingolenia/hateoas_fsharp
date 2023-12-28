@@ -7,6 +7,7 @@
 You will have to read the whole post to get sense of it. The extra short definition of mine would be:
 Hypermedia as the engine of application state (HATEOAS) is the most mature form of a RESTful API:
 ![Screenshot](glory.png)
+
 It's about including links to resources to make it clear what is possible and what's not. 
 
 Sounds boring? Maybe, but it can save You from writing a lot of code and remove some coupling if you are ready 
