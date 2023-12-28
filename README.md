@@ -3,6 +3,15 @@
 
 > This post is part of the F# Advent Calendar 2020. Special thanks to Sergey Tihon for organizing this! [Check out all the other great posts there!](https://sergeytihon.com/2023/10/28/f-advent-calendar-in-english-2023/)
 
+## 1. What is HATEOAS? 
+You will have to read the whole post to get sense of it. The extra short definition of mine would be:
+Hypermedia as the engine of application state (HATEOAS) is the most mature form of a RESTful API:
+![Screenshot](glory.png)
+It's about including links to resources to make it clear what is possible and what's not. 
+
+Sounds boring? Maybe, but it can save You from writing a lot of code and remove some coupling if you are ready 
+for some additional complexity.
+
 I will divide the topic into 3 parts:
 1. HATEOAS in F# (this post)
 2. Let's try LinkGenerator to see if it can simplify HATEOAS implementation (coming soon)
@@ -12,7 +21,7 @@ Hypermedia as the engine of application state (HATEOAS) is 24 years old now!
 I am coding for more than 12 years and yet I didn't see it on production in projects I worked with. 
 Why? Is it so bad? Complex?
 
-## 1. The problem 
+## 2. The problem 
 Let's say that You are an software engineer and You are supposed to create a house allocation app for
 Hogwarts. 
 1. List houses
@@ -174,7 +183,7 @@ But wait... I've done all the code in the problem part... Why? Because we can st
 This two questions are related, I just wanted to emphasize the importance of it. If the API consumer doesn't
 know the answers to this questions the only thing to do is to learn about it from the docs (like swagger), implement some 
 logic on the frontend and pray that no one will do a breaking change. 
-## 2. The solution 
+## 3. The solution 
 Swagger? Yes, that's it. The blog post is over... :D Swagger provides a documentation of all endpoints, 
 we can generate clients from OpenApi spec, but does it make our API discoverable? Let me bring my point of view here on 
 discoverable vs documented:
@@ -186,7 +195,7 @@ discoverable vs documented:
 
 The two serve different purposes and are not mutually exclusive. You can have one without the other, and You can have both.
 
-### 2.1 Without HATEOAS
+### 3.1 Without HATEOAS
 So let's talk about 
 > only admin can delete student
 > 
@@ -209,7 +218,7 @@ is possible with the API. So we fetch roles/permissions and we check them on FE 
 buttons and then we do validate the actions on BE. HATEOAS is about making the workflow explicit by leveraging
 hypermedia, so the API consumers don't have to reproduce the logic on their side. 
 
-### 2.2 With HATEOAS
+### 3.2 With HATEOAS
 We will focus now on discoverability. A common practice to inform API clients what's possible is to
 implement `OPTIONS` to return the list of supported actions [1]. 
 Let's add them! 
@@ -397,7 +406,7 @@ type StudentDto =
                 [ { Rel = "edit"
                     Href = $"/accommodation/houses/{houseName}/students/{student.Id}" } ] }
 ```
-### 2.3 Testing HATEOAS
+### 3.3 Testing HATEOAS
 Here is a test which can test HATEOAS:
 ```fsharp
 [<Fact>]
@@ -427,11 +436,11 @@ let ``HATEOAS: Admin Can list students, delete one of them and get refreshed lis
 I am not using real JWT auth nor a database underneath, but even with real things the test would look like the same. From
 this test You can see how You can process links to derive current state, without coding any logic on the API consumer side.
 
-## 3. Homework
+## 4. Homework
 > Onboard student (only admin can onboard student)
 
 What about cloning this repo and trying to implement this? I keep my fingers crossed.
-## 4. Summary
+## 5. Summary
 I hope that by going through an imaginary example You are able to take some conclusions by Your own. Is Your client app 
 relying on logic duplication? Do You want to introduce some additional complexity to remove it? Long story short:
 ### API with HATEOAS:
@@ -453,7 +462,7 @@ Cons:
 
 This are the key differences I can see.
 
-### 4.1 Where to go from here? 
+### 5.1 Where to go from here? 
 If what I presented got Your attention then You should definitely check 
 "Crafting domain driven web APIs" By Julien Topçu [3] excellent talk. He uses Kotlin and spring on the slides, 
 but this shouldn't be a problem. Also spring documentation [4] is an excellent resource where You can find a lot of 
