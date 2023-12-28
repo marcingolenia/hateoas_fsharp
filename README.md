@@ -1,7 +1,7 @@
 
 # HATEOAS in F#
 
-> This post is part of the F# Advent Calendar 2020. Special thanks to Sergey Tihon for organizing this! [Check out all the other great posts there!](https://sergeytihon.com/2023/10/28/f-advent-calendar-in-english-2023/)
+> This post is part of the F# Advent Calendar 2023. Special thanks to Sergey Tihon for organizing this! [Check out all the other great posts there!](https://sergeytihon.com/2023/10/28/f-advent-calendar-in-english-2023/)
 
 ## 1. What is HATEOAS? 
 You will have to read the whole post to get sense of it. The extra short definition of mine would be:
@@ -460,7 +460,7 @@ Cons:
 - Hardcoded Logic: Clients rely on hardcoded URLs, making them more brittle to changes in the API structure (so coupling).
 - Limited Discoverability: Without HATEOAS, discovering available actions and resources may require external documentation, leading to a potential lack of self-discovery.
 
-This are the key differences I can see.
+These are the key differences I can see.
 
 ### 5.1 Where to go from here? 
 If what I presented got Your attention then You should definitely check 
