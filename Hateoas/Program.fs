@@ -1,38 +1,17 @@
-open System.Security.Claims
-open Microsoft.AspNetCore.Builder
-open Giraffe
-open Giraffe.EndpointRouting
+open Falco
+open Falco.Routing
+open Falco.HostBuilder
 open Microsoft.AspNetCore.Http
+open Microsoft.AspNetCore.Routing
 
-let fakeAuth: HttpHandler =
-     fun (next: HttpFunc) (ctx: HttpContext) ->
-        let a = ctx.Request.Headers.Authorization
-        let role =
-            match a.ToArray() with
-            | [|"Test Admin"|] -> "Admin"
-            | _ -> "Guest"
-        let claims = [
-            Claim(ClaimTypes.Name, "Dumbledore")
-            Claim(ClaimTypes.Email, "dumbledore@hogwart.gb")
-            Claim(ClaimTypes.Role, role)
-        ]
-        let principal = ClaimsIdentity(claims, "TestAuth") |> ClaimsPrincipal
-        ctx.User <- principal
-        next ctx
+let handleName =
+    fun (ctx: HttpContext) ->
+        let linker = ctx.GetService<LinkGenerator>()
+        let route = Request.getRoute ctx
+        let name = route.GetString "name"
+        let message = sprintf "Hello %s" name
+        Response.ofPlainText message ctx
 
-let endpoints useMocks =
-    let auth = if useMocks then applyBefore fakeAuth else id
-    [
-        GET [ route "/health" (text "Up") ]
-        auth (subRoute "/accommodation" HouseAllocation.Router.endpoints)
-    ]
-
-let builder = WebApplication.CreateBuilder()
-builder.Services.AddGiraffe() |> ignore
-let app = builder.Build()
-app
-   .UseRouting()
-   .UseEndpoints(fun e -> e.MapGiraffeEndpoints (endpoints true)) |> ignore
-app.Run()
-
-type Program() = class end
+webHost [||] { endpoints [
+    get "/hello/{name:alpha}" handleName
+] } 

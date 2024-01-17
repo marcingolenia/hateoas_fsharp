@@ -15,6 +15,7 @@
     </ItemGroup>
     <ItemGroup>
       <PackageReference Include="Bogus" Version="34.0.2" />
+      <PackageReference Include="Falco" Version="4.0.6" />
       <PackageReference Include="Giraffe" Version="6.2.0" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
     </ItemGroup>
