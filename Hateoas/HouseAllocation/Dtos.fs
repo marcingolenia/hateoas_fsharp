@@ -1,6 +1,7 @@
 module HouseAllocation.Dtos
 
 open HouseAllocation.Domain
+open Microsoft.AspNetCore.Routing
 
 type HouseListItemDto = { Name: string; Links: Link list }
 
@@ -11,13 +12,14 @@ type HouseDto =
       Capacity: int
       Links: Link list }
 
-    static member map(house: House) =
+    static member map (linker: LinkGenerator) (house: House) =
         let houseName = house.Name.ToString()
+
         { Name = houseName
           Capacity = house.Capacity
           Links =
             [ { Rel = "all_students"
-                Href = $"/accommodation/houses/{houseName}/students/" } ] }
+                Href = linker.GetPathByName("get_house_students", {| s0 = houseName |}) } ] }
 
 type StudentDto =
     { Id: string
@@ -25,7 +27,7 @@ type StudentDto =
       House: string
       Links: Link list }
 
-    static member map (canEdit: bool) (student: Student) =
+    static member map (linker: LinkGenerator) (canEdit: bool) (student: Student) =
         let houseName = student.House.ToString()
 
         { Id = student.Id
@@ -36,4 +38,4 @@ type StudentDto =
             | false -> []
             | true ->
                 [ { Rel = "edit"
-                    Href = $"/accommodation/houses/{houseName}/students/{student.Id}" } ] }
+                    Href = linker.GetPathByName("delete_student", {| s0 = houseName; s1 = student.Id |}) } ] }

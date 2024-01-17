@@ -3,6 +3,7 @@ module HouseAllocation.Router
 open Giraffe
 open Giraffe.EndpointRouting
 open Microsoft.AspNetCore.Http
+open Microsoft.AspNetCore.Routing
 open Microsoft.FSharp.Reflection
 open Domain
 open Dao
@@ -15,33 +16,35 @@ let fromString<'a> (s: string) =
     
 let readOptions: HttpHandler =
     fun (next: HttpFunc) (ctx: HttpContext) ->
+        let linker = ctx.GetService<LinkGenerator>()
         let links : Link list = [{
                 Rel = "all_houses"
-                Href = "/accommodation/houses"
+                Href = linker.GetPathByName "get_houses"
         }]
         json links next ctx
 
 let readHouses: HttpHandler =
     fun (next: HttpFunc) (ctx: HttpContext) ->
+        let linker = ctx.GetService<LinkGenerator>()
         let data =
             houses
             |> List.map (fun house ->
                 { Name = house.Name.ToString()
                   Links =
                     [ { Rel = "self"
-                        Href = $"/accommodation/houses/{house.Name.ToString()}" }
+                        Href = linker.GetPathByName("get_houses_by", {|s0 = house.Name.ToString()|}) }
                       { Rel = "all_students"
-                        Href = $"/accommodation/houses/{house.Name.ToString()}/students" }
-                    ] })
-
+                        Href = linker.GetPathByName("get_house_students", {|s0 = house.Name.ToString()|})}
+                    ]})
         json data next ctx
 
 let readHouseBy (name: string) : HttpHandler =
     fun (next: HttpFunc) (ctx: HttpContext) ->
+        let linker = ctx.GetService<LinkGenerator>()
         let house =
             houses
             |> List.tryFind (fun house -> house.Name.ToString() = name)
-            |> Option.bind (fun house -> HouseDto.map house |> Some)
+            |> Option.bind (fun house -> HouseDto.map linker house |> Some)
         match house with
         | Some house -> json house next ctx
         | None ->
@@ -50,25 +53,27 @@ let readHouseBy (name: string) : HttpHandler =
 
 let readStudentsBy (houseName: string) : HttpHandler =
     fun (next: HttpFunc) (ctx: HttpContext) ->
+        let linker = ctx.GetService<LinkGenerator>()
         let house = fromString<HouseName> houseName
         let isAdmin = ctx.User.IsInRole "Admin"
         match house with
         | Some house -> housedStudents[house] |> fun list ->
-            let response: ResponseDto<StudentDto list> = { Members = list |> List.map(StudentDto.map isAdmin)
-                                                           Links = [{Rel = "parent"; Href = $"/accommodation/houses/{houseName}" }] 
+            let response: ResponseDto<StudentDto list> = { Members = list |> List.map(StudentDto.map linker isAdmin)
+                                                           Links = [{Rel = "parent"; Href = linker.GetPathByName("get_houses_by", {|s0 = houseName |}) }] 
             }
             json response next ctx
         | None ->
             ctx.SetStatusCode(StatusCodes.Status404NotFound)
             text "Page not found" next ctx
 
-let deleteStudentBy (house: string, id: string) : HttpHandler =
+let deleteStudentBy (houseName: string, id: string) : HttpHandler =
     fun (next: HttpFunc) (ctx: HttpContext) ->
+        let linker = ctx.GetService<LinkGenerator>()
         let confirmation: ConfirmationDto =
             { Message = "Deleted"
               Links = [
-                  { Rel = "all_students" ;Href = $"/accommodation/houses/{house}/students"}
-                  { Rel = "parent"; Href = $"/accommodation/houses/{house}" }
+                  { Rel = "all_students"; Href = linker.GetPathByName("get_house_students", {|s0 = houseName |})}
+                  { Rel = "parent"; Href = linker.GetPathByName("get_houses_by", {|s0 = houseName |}) }
               ]
             }
         deleteStudentBy id
@@ -80,15 +85,11 @@ let endpoints =
           route "/" readOptions
       ]
       GET [
-            routef "/houses/%s/students" readStudentsBy
-            routef "/houses/%s" readHouseBy
-            route "/houses" readHouses
+            routef "/houses/%s/students" readStudentsBy |> addMetadata(EndpointNameMetadata "get_house_students") 
+            routef "/houses/%s" readHouseBy |> addMetadata(EndpointNameMetadata "get_houses_by") 
+            route "/houses" readHouses |> addMetadata(EndpointNameMetadata "get_houses")
           ]
       DELETE [
-          routef "/houses/%s/students/%s" deleteStudentBy
+          routef "/houses/%s/students/%s" deleteStudentBy |> addMetadata(EndpointNameMetadata "delete_student")
       ]
     ]
-
-//https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/openapi?view=aspnetcore-8.0
-// |> addMetadata (EndpointNameMetadata "get_houses")
-//HOMEWORK: IMPLEMENT AssignStudent

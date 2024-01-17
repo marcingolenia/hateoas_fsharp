@@ -21,7 +21,7 @@ let ``GET /accommodation/house/:name/students" should return list of students`` 
     task {
         let api = run().CreateClient()
         let! response = api.Get<ResponseDto<StudentDto list>> "/accommodation/houses/Gryffindor/students" None
-        response.Members |> should equal (housedStudents[HouseName.Gryffindor] |> List.map(StudentDto.map false))
+        response.Members |> List.map(_.Id) |> should equal (housedStudents[HouseName.Gryffindor] |> List.map(_.Id))
     }
     
 [<Fact>]
@@ -71,11 +71,3 @@ let ``GET /accommodation/houses" should return ["Gryffindor"; "Hufflepuff"; "Rav
         let! house = api.Get<{|Name: string; Capacity: int|}> link.Href None
         house.Capacity |> should greaterThan 0
     }
-   
-
-// 1. HATEOAS co to jest
-// 2. HETEOAS plusy i minusy
-// 2. Co zaimplementujemy
-// 3. Implementacja
-// 4. Zmiana na FE
-// 3. Wnioski
