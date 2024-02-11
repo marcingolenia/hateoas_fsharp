@@ -6,6 +6,20 @@ open HouseAllocation.Dao
 open Xunit
 open FsUnit.Xunit
 open HouseAllocation.Dtos
+open FSharp.Data
+
+[<Fact>]
+let ``GET /accommodation" should greet`` () =
+    task {
+        let api = run().CreateClient()
+        let! response = api.GetAsync "/accommodation"
+        let! htmlString = response.Content.ReadAsStringAsync()
+        let htmlDoc= HtmlDocument.Parse htmlString
+        htmlDoc.Descendants [ "h1" ]
+            |> Seq.head
+            |> _.InnerText()
+            |> should equal "I |> F#"
+    }
 
 [<Fact>]
 let ``GET /accommodation/house/:name" should return house with capacity`` () =

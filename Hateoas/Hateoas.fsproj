@@ -7,6 +7,7 @@
         <Compile Include="HouseAllocation\Domain.fs" />
         <Compile Include="HouseAllocation\Dao.fs" />
         <Compile Include="HouseAllocation\Dtos.fs" />
+        <Compile Include="HouseAllocation\Views.fs" />
         <Compile Include="HouseAllocation\Router.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>
@@ -16,6 +17,8 @@
     <ItemGroup>
       <PackageReference Include="Bogus" Version="34.0.2" />
       <PackageReference Include="Giraffe" Version="6.2.0" />
+      <PackageReference Include="Giraffe.Htmx" Version="1.9.10" />
+      <PackageReference Include="Giraffe.ViewEngine.Htmx" Version="1.9.10" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
     </ItemGroup>
 </Project>
