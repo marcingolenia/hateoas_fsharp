@@ -54,6 +54,10 @@ let readHouseBy (name: string) : HttpHandler =
 let showIndex : HttpHandler =
     fun (next: HttpFunc) (ctx: HttpContext) ->
         htmlView (Views.index houses) next ctx
+        
+let showTest : HttpHandler =
+    fun (next: HttpFunc) (ctx: HttpContext) ->
+        htmlView Views.test next ctx
 
 let readStudentsBy (houseName: string) : HttpHandler =
     fun (next: HttpFunc) (ctx: HttpContext) ->
@@ -93,6 +97,7 @@ let endpoints =
             routef "/houses/%s" readHouseBy |> addMetadata(EndpointNameMetadata "get_houses_by") 
             route "/houses" readHouses |> addMetadata(EndpointNameMetadata "get_houses")
             route "/" showIndex |> addMetadata "index"
+            route "/houses/test" showTest |> addMetadata "test"
           ]
       DELETE [
           routef "/houses/%s/students/%s" deleteStudentBy |> addMetadata(EndpointNameMetadata "delete_student")

@@ -14,7 +14,7 @@ let ``GET /accommodation" should greet`` () =
         let api = run().CreateClient()
         let! response = api.GetAsync "/accommodation"
         let! htmlString = response.Content.ReadAsStringAsync()
-        let htmlDoc= HtmlDocument.Parse htmlString
+        let htmlDoc = HtmlDocument.Parse htmlString
         htmlDoc.Descendants [ "h1" ]
             |> Seq.head
             |> _.InnerText()
