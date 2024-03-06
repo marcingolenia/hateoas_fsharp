@@ -1,4 +1,4 @@
-module HouseAllocation.Router
+module HouseAllocation.Api
 
 open Giraffe
 open Giraffe.EndpointRouting
@@ -50,14 +50,6 @@ let readHouseBy (name: string) : HttpHandler =
         | None ->
             ctx.SetStatusCode(StatusCodes.Status404NotFound)
             text "Page not found" next ctx
-               
-let showIndex : HttpHandler =
-    fun (next: HttpFunc) (ctx: HttpContext) ->
-        htmlView (Views.index houses) next ctx
-        
-let showTest : HttpHandler =
-    fun (next: HttpFunc) (ctx: HttpContext) ->
-        htmlView Views.test next ctx
 
 let readStudentsBy (houseName: string) : HttpHandler =
     fun (next: HttpFunc) (ctx: HttpContext) ->
@@ -96,8 +88,6 @@ let endpoints =
             routef "/houses/%s/students" readStudentsBy |> addMetadata(EndpointNameMetadata "get_house_students") 
             routef "/houses/%s" readHouseBy |> addMetadata(EndpointNameMetadata "get_houses_by") 
             route "/houses" readHouses |> addMetadata(EndpointNameMetadata "get_houses")
-            route "/" showIndex |> addMetadata "index"
-            route "/houses/test" showTest |> addMetadata "test"
           ]
       DELETE [
           routef "/houses/%s/students/%s" deleteStudentBy |> addMetadata(EndpointNameMetadata "delete_student")
