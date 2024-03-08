@@ -6,12 +6,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Settings.fs" />
+    <Compile Include="pages\Home.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Fable.Browser.Dom" Version="2.16.0" />
     <PackageReference Include="Fable.Core" Version="4.3.0" />
+    <PackageReference Include="Fable.Fetch" Version="2.6.0" />
+    <PackageReference Include="Thoth.Fetch" Version="3.0.1" />
     <PackageReference Include="Vide.UI.Fable" Version="0.0.34" />
   </ItemGroup>
 

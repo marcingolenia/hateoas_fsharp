@@ -4,14 +4,12 @@ open Browser
 
 let rootComponent =
     vide {
+        let! count = ofMutable {0}
         div.class'("main-view") {
-            h1.class'("text-3xl font-bold underline text-center") { "Test" }
-            p {
-                img.src("https://vide-dev.io/logo-vide.svg").width("150px")
+            Home.render count.Value
+            button.class'("btn").onclick(fun _ -> count.Value <- count.Value + 1) {
+                $"Click me! {count.Value} times"
             }
-            hr 
-            "The whole Vide wookd" 
-            button.class'("btn") {"Hello daisy"}
         }
     }
 

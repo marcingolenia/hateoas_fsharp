@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "vite",
-    "dev": "dotnet fable watch & vite &"
+    "dev": "dotnet fable --verbose --run vite"
   },
   "keywords": [],
   "author": "",
