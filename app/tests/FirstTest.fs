@@ -1,26 +1,20 @@
 module Tests
 
+open Browser
 open Expect
 open Expect.Dom
+open Fable.Core.Testing
 open WebTestRunner
 
 let render _component =
     let container = Container.New()
-    Sutil.DOM.mountOn _component container.El |> ignore
-    container
+    Sutil.Program.mount(container.El, _component) |> ignore
+    container.El
 
 describe "Initial board should have" <| fun () ->
     it "Queue column" <| fun () -> promise {
-        use sut = render App.app
-        sut.El |> Expect.innerText "Queue"
+        let sut = render App.app
+        let button = sut.getByRole("button", "Hello daisy")
+        let a =  button.dispatchEvent(Event.Create("Click"))
+        Assert.AreEqual(sut.textContent, "Hello daisy")
     }
-    
-//    it "In progress column" <| fun () -> promise {
-//        use sut = render App.app
-//        sut.El |> Expect.innerText "Hello World from sutil."
-//    }
-//    
-//    it "Done column" <| fun () -> promise {
-//        use sut = render App.app
-//        sut.El |> Expect.innerText "Hello World from sutil."
-//    }
