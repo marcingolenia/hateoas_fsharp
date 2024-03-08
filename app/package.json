@@ -4,9 +4,12 @@
     "postinstall": "dotnet tool restore",
     "start-fable": "dotnet fable watch src",
     "start-vite": "vite",
-    "start2": "vite"
+    "test": "dotnet fable tests -o build/tests --run web-test-runner build/tests/*Test.js --node-resolve",
+    "test:watch": "dotnet fable watch test -o build/test --run web-test-runner build/test/*Test.js --node-resolve --watch"
   },
   "devDependencies": {
+    "@web/test-runner": "^0.13.18",
+    "@web/test-runner-commands": "^0.5.13",
     "autoprefixer": "^10.4.18",
     "daisyui": "^4.7.2",
     "postcss": "^8.4.35",
