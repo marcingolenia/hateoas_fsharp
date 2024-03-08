@@ -1,7 +1,6 @@
 module Tests
 
 open Browser
-open Expect
 open Expect.Dom
 open Fable.Core.Testing
 open WebTestRunner
