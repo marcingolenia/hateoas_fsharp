@@ -36,7 +36,7 @@ builder.Services.AddGiraffe() |> ignore
 let app = builder.Build()
 app
    .UseRouting()
-   .UseCors(fun builder -> builder.WithOrigins("*").AllowAnyHeader().AllowAnyHeader |> ignore)
+   .UseCors(fun builder -> builder.WithOrigins("*").AllowAnyHeader().AllowAnyMethod() |> ignore)
    .UseEndpoints(fun e -> e.MapGiraffeEndpoints (endpoints true)) |> ignore
    
 app.Run()
