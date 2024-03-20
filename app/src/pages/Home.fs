@@ -2,34 +2,36 @@ module Home
 
 open Fable.Core
 open Fetch.Types
+open Thoth.Json
 open Sutil
 
-let readOptionsMock (): JS.Promise<{|href: string; ref: string|} list> =
+let readOptionsMock (): JS.Promise<Link list> =
     promise {
-        return [|{|href="/accommodation"; ref=""|}|] |> Array.toList
+        return [{Href="/accommodation"; Rel=""}]
     }
 
-let readOptions (): JS.Promise<{|href: string; ref: string|} list> =
+let readOptions (): JS.Promise<Link list> =
     promise {
         let url = $"{Settings.ApiBaseUrl}/accommodation"
-        let! response = Fetch.fetch url [RequestProperties.Method HttpMethod.OPTIONS]
-        let! options = response.json<{|href: string; ref: string|}[]>()
-        return options |> Array.toList
+        //let! response = Fetch.fetch url [RequestProperties.Method HttpMethod.OPTIONS]
+        let! res = Thoth.Fetch.Fetch.fetchAs<_, Link[]>(url, caseStrategy = CamelCase, httpMethod = HttpMethod.OPTIONS)
+        //let! options = response.json<{|href: string; ref: string|}[]>()
+        return res |> Array.toList
     }
     
 //let options = readOptions() |> Store.make
 
-let link href =
+let renderShowHouses link =
     Html.a [
     Html.text "Show Houses"
-    Attr.href href
+    Attr.href link.Href
     //onClick (fun _ -> ()) [PreventDefault] 
 ]
     
-let view (readOptions: unit -> JS.Promise<{| href: string; ref: string |} list>) =
+let view (readOptions: unit -> JS.Promise<Link list>) =
     Html.div [
         Bind.promise(readOptions(),
-                      (fun options -> link options[0].href),
+                      (fun options -> renderShowHouses (options |> List.find(fun link -> link.Rel = "all_houses"))),
                       (text "waiting..."),
                       fun err -> text "Error")
     ]

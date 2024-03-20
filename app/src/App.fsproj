@@ -14,4 +14,7 @@
     <PackageReference Include="Sutil" Version="2.0.11" />
     <PackageReference Include="Thoth.Fetch" Version="3.0.1" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Dtos\Dtos.fsproj" />
+  </ItemGroup>
 </Project>

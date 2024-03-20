@@ -3,7 +3,6 @@
         <TargetFramework>net8.0</TargetFramework>
     </PropertyGroup>
     <ItemGroup>
-        <Compile Include="Link.fs" />
         <Compile Include="HouseAllocation\Domain.fs" />
         <Compile Include="HouseAllocation\Dao.fs" />
         <Compile Include="HouseAllocation\Dtos.fs" />
@@ -17,5 +16,8 @@
       <PackageReference Include="Bogus" Version="34.0.2" />
       <PackageReference Include="Giraffe" Version="6.2.0" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\Dtos\Dtos.fsproj" />
     </ItemGroup>
 </Project>
